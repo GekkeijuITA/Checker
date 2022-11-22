@@ -1,11 +1,15 @@
-import os
+import subprocess
 import platform
-#os.system('ls') 
-system = platform.system();
 
+# Get the OS and change the command accordingly
+system = platform.system();
 if system == 'Windows':
-    os.system('echo Hello Windows')
+    cmd = "echo Hello Windows"
 elif system == 'Linux':
-    os.system('echo Hello Linux')
+    cmd = "echo Hello Linux"
 else:
-    os.system('echo Hello Apple')
+    cmd = "clang++ -Werror -Wno-error=unused-variable -Wall -W main.cpp"
+
+# Run the command and print the output
+returned_output = subprocess.check_output(cmd)
+print('Output:', returned_output.decode('utf-8'))
