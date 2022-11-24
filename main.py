@@ -8,12 +8,12 @@ def runprint_output(cmd):
     output = returned_output.stdout.decode('utf-8')
     if(output != ""):
         print(output)
-    #else:
-    #    print("Corretto")
+    else:
+        print("Correct")
 
 def check_files(file,system):
     cmd = "echo Nothing found"
-    if file.endswith(".cpp") or file.endswith(".h"):
+    if file.endswith(".cpp"):
         if system == "Windows":
             cmd = 'g++ -Wall -std=c++14 ' + file +  ' -o a'
         elif system == 'Linux':
@@ -22,20 +22,6 @@ def check_files(file,system):
             cmd = "clang++ -Werror -Wno-error=unused-variable -Wall -W " + file
         runprint_output(cmd) 
 
-def loop(dir,system):
-    directory_contents = os.listdir(dir)
-    for file in directory_contents:
-        path = os.path.join(dir, file)
-        if os.path.isdir(path):
-            loop(path,system)
-        else:
-            check_files(path,system) 
 
-
-
-# Main
-system = platform.system()
-directory_contents = os.listdir()
-for item in directory_contents:
-    if os.path.isdir(item):
-        loop(item,system)
+for file in os.listdir():
+    check_files(file,platform.system())
