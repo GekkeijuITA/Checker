@@ -27,12 +27,20 @@ def check_files(file,system):
         cmd = "clang++ -Werror -Wno-error=unused-variable -Wall -W " + file
     runprint_output(cmd) 
 
-directorySrc = filedialog.askdirectory()
-directoryDest = pathlib.Path(__file__).parent.resolve()
-#shutil.move(directorySrc, directoryDest)
+directorySrc = filedialog.askdirectory() # Ask the user to select the folder
+directoryDest = pathlib.Path(__file__).parent.resolve() # Get the path of the script
 
+#copy all .cpp files in the same folder of the script
 for file in os.listdir(directorySrc):
     if file.endswith(".cpp"):
         shutil.copy2(directorySrc + "/" + file, directoryDest)
-        #fix file not found
-        check_files(file,platform.system())
+
+# Check the files (to fix)
+#for file in os.listdir():
+#    if file.endswith(".cpp"):
+#        check_files(file,platform.system())
+
+# Delete all the files
+    for file in os.listdir():
+        if file.endswith(".cpp"):
+            os.remove(file)
