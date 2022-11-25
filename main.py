@@ -10,14 +10,14 @@ import platform
 
 exe_file = "test"
 
-def runprint_output(cmd):
+def runprint_output(cmd,file):
     returned_output = subprocess.run(cmd , stdout = subprocess.PIPE)
     output = returned_output.stdout.decode('utf-8')
-    #to fix
-    if(len(output) > 0):
+
+    if(returned_output.returncode != 0):
         print(output)
     else:
-        print("Correct")
+        print(file + " correct")
 
 def delete_file(file):
     os.remove(file)
@@ -30,7 +30,7 @@ def check_file(file,system):
         cmd = "echo Not supported yet"
     else:
         cmd = "clang++ -Werror -Wno-error=unused-variable -Wall -W " + file
-    runprint_output(cmd) 
+    runprint_output(cmd,file) 
     delete_file(file)
 
 def subDir(directorySrc,directoryDest):
