@@ -1,7 +1,11 @@
-# Check the file that are in the same folder of the script
+# Check the file that are in the same folder of the script for now
+from tkinter import *
+
 import subprocess
 import platform
 import os
+import tkinter , tkCostants , tkFileDialog
+
 
 def runprint_output(cmd):
     returned_output = subprocess.run(cmd , stdout = subprocess.PIPE)
@@ -22,6 +26,8 @@ def check_files(file,system):
             cmd = "clang++ -Werror -Wno-error=unused-variable -Wall -W " + file
         runprint_output(cmd) 
 
-
-for file in os.listdir():
-    check_files(file,platform.system())
+root = Tk()
+root.directory = tkFileDialog.askdirectory()
+print(root.directory)
+#for file in os.listdir():
+#    check_files(file,platform.system())
