@@ -13,7 +13,8 @@ exe_file = "test"
 def runprint_output(cmd):
     returned_output = subprocess.run(cmd , stdout = subprocess.PIPE)
     output = returned_output.stdout.decode('utf-8')
-    if(output != ""):
+    #to fix
+    if(len(output) > 0):
         print(output)
     else:
         print("Correct")
