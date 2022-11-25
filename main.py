@@ -1,10 +1,12 @@
 # Check the file that are in the same folder of the script for now
 from tkinter import *
+from tkinter import filedialog
 
 import subprocess
 import platform
 import os
-import tkinter , tkCostants , tkFileDialog
+import shutil
+import pathlib
 
 
 def runprint_output(cmd):
@@ -17,17 +19,20 @@ def runprint_output(cmd):
 
 def check_files(file,system):
     cmd = "echo Nothing found"
-    if file.endswith(".cpp"):
-        if system == "Windows":
-            cmd = 'g++ -Wall -std=c++14 ' + file +  ' -o a'
-        elif system == 'Linux':
-            cmd = "echo Not supported yet"
-        else:
-            cmd = "clang++ -Werror -Wno-error=unused-variable -Wall -W " + file
-        runprint_output(cmd) 
+    if system == "Windows":
+        cmd = 'g++ -Wall -std=c++14 ' + file +  ' -o a'
+    elif system == 'Linux':
+        cmd = "echo Not supported yet"
+    else:
+        cmd = "clang++ -Werror -Wno-error=unused-variable -Wall -W " + file
+    runprint_output(cmd) 
 
-root = Tk()
-root.directory = tkFileDialog.askdirectory()
-print(root.directory)
-#for file in os.listdir():
-#    check_files(file,platform.system())
+directorySrc = filedialog.askdirectory()
+directoryDest = pathlib.Path(__file__).parent.resolve()
+#shutil.move(directorySrc, directoryDest)
+
+for file in os.listdir(directorySrc):
+    if file.endswith(".cpp"):
+        shutil.copy2(directorySrc + "/" + file, directoryDest)
+        #fix file not found
+        check_files(file,platform.system())
