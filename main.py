@@ -8,7 +8,7 @@ import shutil
 import pathlib
 import platform
 
-exe_file = "a"
+exe_file = "test"
 
 def runprint_output(cmd):
     returned_output = subprocess.run(cmd , stdout = subprocess.PIPE)
@@ -19,7 +19,6 @@ def runprint_output(cmd):
         print("Correct")
 
 def delete_file(file):
-    print("Deleting file: " + file)
     os.remove(file)
 
 def check_file(file,system):
@@ -33,14 +32,19 @@ def check_file(file,system):
     runprint_output(cmd) 
     delete_file(file)
 
+def subDir(directorySrc,directoryDest):
+    for subs in os.listdir(directorySrc):
+        path = directorySrc + "/" + subs
+        if os.path.isdir(path):
+            subDir(path,directoryDest)
+        elif subs.endswith(".cpp"):
+            shutil.copy2(path, directoryDest)
+
 directorySrc = filedialog.askdirectory() # Ask the user to select the folder
 directoryDest = pathlib.Path(__file__).parent.resolve() # Get the path of the script
 
 #copy all .cpp files in the same folder of the script
-for file in os.listdir(directorySrc):
-    if file.endswith(".cpp"):
-        print("Copying " + file)
-        shutil.copy2(directorySrc + "/" + file, directoryDest)
+subDir(directorySrc,directoryDest)
 
 # Check the files
 for file in os.listdir():
@@ -48,4 +52,5 @@ for file in os.listdir():
         print("Checking " + file)
         check_file(file,platform.system())
 
-os.remove(exe_file + ".exe") 
+# Delete the exe file
+delete_file(exe_file + ".exe")
