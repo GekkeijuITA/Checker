@@ -3,7 +3,6 @@ from tkinter import *
 from tkinter import filedialog
 
 import subprocess
-import platform
 import os
 import shutil
 import pathlib
