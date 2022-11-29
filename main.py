@@ -72,8 +72,7 @@ for file in os.listdir():
 
 # Delete files
 for file in os.listdir():
-    if file.endswith(".h") or file.endswith(".cpp"):
+    if not file.endswith(".py") or os.path.isdir(file):
         delete_file(file)
-delete_file(exe_file + ".exe")
 
 main.mainloop()
