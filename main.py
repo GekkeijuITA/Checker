@@ -4,7 +4,6 @@ import subprocess
 import os
 import shutil
 import pathlib
-import time
 
 # Global variables
 exe_file = "test"
@@ -75,7 +74,6 @@ print("\n")
 print("Errors:")
 for err in output:
     print(err)
-    time.sleep(1)
 
 # Delete all the files
 for file in os.listdir():
