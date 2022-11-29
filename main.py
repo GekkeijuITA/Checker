@@ -18,26 +18,13 @@ def runprint_output(cmd,file):
         print(output)
     else:
         print(file + " correct")
+    print("\n")
 
 def delete_file(file):
     os.remove(file)
 
 def check_file(file,system,parentPath):
-    cmd = "echo Nothing found"
-    if system == "Windows":
-        cmd = "g++ -Wall -std=c++14 " + file +  " -o " + exe_file
-    elif system == 'Linux':
-        cmd = "echo Not supported yet"
-    else:
-        path = str(parentPath) + "/"
-        partitionedPath = path.partition("Desktop/")
-        path = partitionedPath[1] + partitionedPath[2]
-        subprocess.run("cd", stdout = subprocess.PIPE)
-        subprocess.run("cd " + path, stdout = subprocess.PIPE)
-        #cmd = "g++ -Wall -std=c++14 -o ./" + exe_file + " ./" + file
-        cmd = "g++ -Wall -std=c++14 " + file +  " -o " + exe_file
-        #cd "path" && g++ file -o name && "path"
-        #cmd = "clang++ -Werror -Wno-error=unused-variable -Wall -W  -o ./" + exe_file + " ./" + path
+    cmd = ["g++", "-Wall" , "-std=c++14" , file , "-o" , exe_file]
     runprint_output(cmd,file) 
     delete_file(file)
 
@@ -61,5 +48,6 @@ for file in os.listdir():
         print("Checking " + file)
         check_file(file,platform.system(),directoryDest)
 
-# Delete the exe file
-#delete_file(exe_file + ".exe")
+for file in os.listdir():
+    if not file.endswith(".py") and not os.path.isdir(file):
+        delete_file(file)
