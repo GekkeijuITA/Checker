@@ -30,8 +30,12 @@ def check_file(file,system,parentPath):
         cmd = "echo Not supported yet"
     else:
         path = str(parentPath) + "/"
-        cmd = "g++ -Wall -std=c++14 -o ./" + exe_file + " ./" + file
-        #cmd = "cd " + path + " && g++ -Wall -std=c++14 " + file +  " -o " + exe_file
+        partitionedPath = path.partition("Desktop/")
+        path = partitionedPath[1] + partitionedPath[2]
+        subprocess.run("cd", stdout = subprocess.PIPE)
+        subprocess.run("cd " + path, stdout = subprocess.PIPE)
+        #cmd = "g++ -Wall -std=c++14 -o ./" + exe_file + " ./" + file
+        cmd = "g++ -Wall -std=c++14 " + file +  " -o " + exe_file
         #cd "path" && g++ file -o name && "path"
         #cmd = "clang++ -Werror -Wno-error=unused-variable -Wall -W  -o ./" + exe_file + " ./" + path
     runprint_output(cmd,file) 
