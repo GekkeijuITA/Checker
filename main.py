@@ -28,7 +28,8 @@ def check_file(file):
     global output
     cmd = ["g++", "-Wall" , "-std=c++14" , file , "-o" , exe_file] # compile the file, cross-platform
     returned_output = subprocess.run(cmd , stdout=subprocess.PIPE, stderr=subprocess.PIPE , text = True)
-    output.append(returned_output.stderr)
+    if returned_output.stderr != "":
+        output.append(returned_output.stderr)
 
 def count_files(directorySrc): # Count the number of files in the folder
     global files
@@ -70,9 +71,14 @@ for file in os.listdir():
         check_file(file)
 
 print("\n")
-print("Errors:")
-for err in output:
-    print(err)
+
+# Print the errors
+if output.count != 0: # guardare che sia giusto (stampa "Errors:" anche se non ci sono errori)
+    print("Errors:")
+    for err in output:
+        print(err)
+else:
+    print("No errors found")
 
 # Delete all the files
 for file in os.listdir():
