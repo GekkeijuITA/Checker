@@ -23,7 +23,7 @@ def runprint_output(cmd,file):
 def delete_file(file):
     os.remove(file)
 
-def check_file(file,system,parentPath):
+def check_file(file):
     cmd = ["g++", "-Wall" , "-std=c++14" , file , "-o" , exe_file]
     runprint_output(cmd,file) 
     delete_file(file)
@@ -46,7 +46,7 @@ subDir(directorySrc,directoryDest)
 for file in os.listdir():
     if file.endswith(".cpp"):
         print("Checking " + file)
-        check_file(file,platform.system(),directoryDest)
+        check_file(file)
 
 for file in os.listdir():
     if not file.endswith(".py") and not os.path.isdir(file):
