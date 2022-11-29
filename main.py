@@ -58,8 +58,7 @@ directoryDest = pathlib.Path(__file__).parent.resolve() # Get the path of the sc
 
 count_files(directorySrc) # Count the number of files
 
-# Copy all .cpp files in the same folder of the script
-subDir(directorySrc,directoryDest)
+subDir(directorySrc,directoryDest) # Copy all .cpp files in the same folder of the script
 i = 0
 print("\n")
 
