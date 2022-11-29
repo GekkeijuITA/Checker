@@ -73,7 +73,7 @@ for file in os.listdir():
 print("\n")
 
 # Print the errors
-if output.count != 0: # guardare che sia giusto (stampa "Errors:" anche se non ci sono errori)
+if output.count != 0: # non cattura errori se faccio partire con parte 10
     print("Errors:")
     for err in output:
         print(err)
