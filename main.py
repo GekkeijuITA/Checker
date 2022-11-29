@@ -1,5 +1,3 @@
-# Check the file that are in a folder chosen by the user
-from tkinter import *
 from tkinter import filedialog
 
 import subprocess
@@ -7,11 +5,13 @@ import os
 import shutil
 import pathlib
 
+# Global variables
 exe_file = "test"
 files = 0
 i = 0
 
-def printProgressBar(iteration , total , prefix = '' , suffix = '' , decimals = 1 , length = 100 , fill = '█' , printEnd = "\r"):
+# Credits: https://stackoverflow.com/questions/3173320/text-progress-bar-in-terminal-with-block-characters/13685020
+def printProgressBar(iteration , total , prefix = '' , suffix = '' , decimals = 1 , length = 100 , fill = '█' , printEnd = "\r"): 
     percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
     filledLength = int(length * iteration // total)
     bar = fill * filledLength + '-' * (length - filledLength)
@@ -19,30 +19,23 @@ def printProgressBar(iteration , total , prefix = '' , suffix = '' , decimals = 
     if iteration == total:
         print()
 
-def runprint_output(cmd,file):
-    returned_output = subprocess.run(cmd , stdout = subprocess.PIPE)
-    output = returned_output.stdout
-
-    if(str(returned_output.returncode) != '0'):
-        print(file + " correct")
-
 def delete_file(file):
     os.remove(file)
 
 def check_file(file):
     cmd = ["g++", "-Wall" , "-std=c++14" , file , "-o" , exe_file] # compile the file, cross-platform
-    runprint_output(cmd,file)
+    subprocess.run(cmd , stdout = subprocess.PIPE)
 
-def count_files(directorySrc,directoryDest):
+def count_files(directorySrc): # Count the number of files in the folder
     global files
     for subs in os.listdir(directorySrc):
         path = directorySrc + "/" + subs
-        if os.path.isdir(path):
-            count_files(path,directoryDest)
+        if os.path.isdir(path): # Subfolder
+            count_files(path)
         elif subs.endswith(".cpp") or subs.endswith(".h"):
             files+=1
 
-def subDir(directorySrc,directoryDest):
+def subDir(directorySrc,directoryDest): # Search and copy all the files in the folder
     global i,files
     for subs in os.listdir(directorySrc):
         path = directorySrc + "/" + subs
@@ -56,8 +49,9 @@ def subDir(directorySrc,directoryDest):
 directorySrc = filedialog.askdirectory() # Ask the user to select the folder
 directoryDest = pathlib.Path(__file__).parent.resolve() # Get the path of the script
 
-count_files(directorySrc,directoryDest)
-#copy all .cpp files in the same folder of the script
+count_files(directorySrc) # Count the number of files
+
+# Copy all .cpp files in the same folder of the script
 printProgressBar(iteration = 0 , total = files , prefix = 'Progress:' , suffix = 'Complete' , length = 50)
 subDir(directorySrc,directoryDest)
 
