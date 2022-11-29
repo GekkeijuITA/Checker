@@ -6,7 +6,6 @@ import subprocess
 import os
 import shutil
 import pathlib
-import platform
 
 exe_file = "test"
 
