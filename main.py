@@ -33,13 +33,7 @@ def delete_file(file):
     os.remove(file)
 
 def check_file(file,system,listBox):
-    cmd = "echo Nothing found"
-    if system == "Windows":
-        cmd = 'g++ -Wall -std=c++14 ' + file +  ' -o ' + exe_file
-    elif system == 'Linux':
-        cmd = "echo Not supported yet"
-    else:
-        cmd = "clang++ -Werror -Wno-error=unused-variable -Wall -W " + file
+    cmd = ["g++", "-Wall" , "-std=c++14" , file , "-o" , exe_file]
     runprint_output(cmd,file,listBox)
 
 def subDir(directorySrc,directoryDest):
@@ -72,7 +66,7 @@ for file in os.listdir():
 
 # Delete files
 for file in os.listdir():
-    if not file.endswith(".py") or os.path.isdir(file):
+    if not file.endswith(".py") and not os.path.isdir(file):
         delete_file(file)
 
 main.mainloop()
