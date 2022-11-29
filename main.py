@@ -1,6 +1,7 @@
 # Check the file that are in a folder chosen by the user
 from tkinter import *
 from tkinter import filedialog
+from pathlib import Path
 
 import subprocess
 import os
@@ -32,15 +33,21 @@ def runprint_output(cmd,file,listBox):
 def delete_file(file):
     os.remove(file)
 
-def check_file(file,system,listBox):
+def check_file(file,system,window,parentPath):
     cmd = "echo Nothing found"
     if system == "Windows":
-        cmd = 'g++ -Wall -std=c++14 ' + file +  ' -o ' + exe_file
+        cmd = "g++ -Wall -std=c++14 " + file +  " -o " + exe_file
     elif system == 'Linux':
         cmd = "echo Not supported yet"
     else:
-        cmd = "clang++ -Werror -Wno-error=unused-variable -Wall -W " + file
-    runprint_output(cmd,file,listBox)
+        path = str(parentPath) + "/" + file
+        path = Path(path)
+        path = str(path.relative_to("/Desktop"))
+        #cd "path" && g++ file -o name && "path"
+        #cmd = "clang++ -Werror -Wno-error=unused-variable -Wall -W  -o " + exe_file + " " + path
+        #clang++ -Werror -Wno-error=unused-variable -Wall -W Desktop/Università/Introduzione\ alla\ programmazione/Universit-/Parte\ 1/Esercizio\ 1.1/sum.cpp
+    runprint_output(cmd,file,window) 
+    delete_file(file)
 
 def subDir(directorySrc,directoryDest):
     for subs in os.listdir(directorySrc):
@@ -68,12 +75,8 @@ subDir(directorySrc,directoryDest)
 # Check the files
 for file in os.listdir():
     if file.endswith(".cpp"):
-        check_file(file,platform.system(),x.get_listBox())
+        check_file(file,platform.system(),main,directoryDest)
 
-# Delete files
-for file in os.listdir():
-    if file.endswith(".h") or file.endswith(".cpp"):
-        delete_file(file)
-delete_file(exe_file + ".exe")
-
+# Delete the exe file
+#delete_file(exe_file + ".exe")
 main.mainloop()
