@@ -10,7 +10,7 @@ exe_file = "test"
 files = 0
 i = 0
 cpp = 0
-output = []
+output = {}
 
 # Credits: https://stackoverflow.com/questions/3173320/text-progress-bar-in-terminal-with-block-characters/13685020
 def printProgressBar(iteration , total , prefix = '' , suffix = '' , decimals = 1 , length = 100 , fill = '█' , printEnd = "\r"): 
@@ -29,7 +29,7 @@ def check_file(file):
     cmd = ["g++", "-Wall" , "-std=c++14" , file , "-o" , exe_file] # compile the file, cross-platform
     returned_output = subprocess.run(cmd , stdout=subprocess.PIPE, stderr=subprocess.PIPE , text = True)
     if returned_output.stderr != "":
-        output.append(returned_output.stderr)
+        output[file] = returned_output.stderr
 
 def count_files(directorySrc): # Count the number of files in the folder
     global files
@@ -54,10 +54,19 @@ def subDir(directorySrc,directoryDest): # Search and copy all the files in the f
             i += 1
             printProgressBar(iteration = i , total = files , prefix = 'Copying files:' , suffix = 'Complete' , length = 50)
 
+def count_items(dictionary):
+    count = 0
+    for key,value in dictionary.items():
+        count += 1
+    return count
+
 directorySrc = filedialog.askdirectory() # Ask the user to select the folder
 directoryDest = pathlib.Path(__file__).parent.resolve() # Get the path of the script
 
 count_files(directorySrc) # Count the number of files
+if(files == 0):
+    print("No .cpp or .h files found")
+    exit()
 
 subDir(directorySrc,directoryDest) # Copy all .cpp files in the same folder of the script
 i = 0
@@ -73,10 +82,11 @@ for file in os.listdir():
 print("\n")
 
 # Print the errors
-if output.count != 0: # non cattura errori se faccio partire con parte 10 su mac
+if count_items(output) != 0: # non cattura errori se faccio partire con parte 10 su mac
     print("Errors:")
-    for err in output:
-        print(err)
+    for key in output:
+        print("\n-------------- " + key + " --------------\n")
+        print(output[key])
 else:
     print("No errors found")
 
