@@ -13,7 +13,8 @@ cpp = 0
 output = {}
 
 # Credits: https://stackoverflow.com/questions/3173320/text-progress-bar-in-terminal-with-block-characters/13685020
-def printProgressBar(iteration , total , prefix = '' , suffix = '' , decimals = 1 , length = 100 , fill = '█' , printEnd = "\r"): 
+# █ can be used to fill the bar
+def printProgressBar(iteration , total , prefix = '' , suffix = '' , decimals = 1 , length = 100 , fill = '#' , printEnd = "\r"): 
     percent = ("{0:." + str(decimals) + "f}").format(100 * (iteration / float(total)))
     filledLength = int(length * iteration // total)
     bar = fill * filledLength + '-' * (length - filledLength)
@@ -52,7 +53,7 @@ def subDir(directorySrc,directoryDest): # Search and copy all the files in the f
         elif subs.endswith(".cpp") or subs.endswith(".h"):
             shutil.copy2(path, directoryDest)
             i += 1
-            printProgressBar(iteration = i , total = files , prefix = 'Copying files:' , suffix = 'Complete' , length = 50)
+            printProgressBar(iteration = i , total = files , prefix = 'Copying files: ' , suffix = 'Complete' , length = 50)
 
 def count_items(dictionary): # Count items in a dictionary
     count = 0
@@ -66,6 +67,8 @@ def count_items(dictionary): # Count items in a dictionary
 directorySrc = filedialog.askdirectory() # Ask the user to select the folder
 directoryDest = pathlib.Path(__file__).parent.resolve() # Get the path of the script
 
+print("Analysing files in " + directorySrc.rsplit('/' , 1)[-1] + "...\r")
+
 count_files(directorySrc)
 if(files == 0):
     print("No .cpp or .h files found")
@@ -73,7 +76,8 @@ if(files == 0):
 
 subDir(directorySrc,directoryDest) # Copy all .cpp files in the same folder of the script
 i = 0
-print("\n")
+
+print("\r")
 
 # Check the files
 for file in os.listdir():
@@ -82,7 +86,7 @@ for file in os.listdir():
         printProgressBar(iteration = i , total = cpp , prefix = 'Checking files:' , suffix = 'Complete' , length = 50)
         check_file(file)
 
-print("\n")
+print("\r")
 
 # Print the errors
 if count_items(output) != 0:
