@@ -60,6 +60,9 @@ def count_items(dictionary): # Count items in a dictionary
         count += 1
     return count
 
+
+# Main
+
 directorySrc = filedialog.askdirectory() # Ask the user to select the folder
 directoryDest = pathlib.Path(__file__).parent.resolve() # Get the path of the script
 
