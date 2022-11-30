@@ -21,10 +21,10 @@ def printProgressBar(iteration , total , prefix = '' , suffix = '' , decimals = 
     if iteration == total:
         print()
 
-def delete_file(file):
+def delete_file(file): # Delete passed file
     os.remove(file)
 
-def check_file(file):
+def check_file(file): # Run the command and add errors in global dictionary
     global output
     cmd = ["g++", "-Wall" , "-std=c++14" , file , "-o" , exe_file] # compile the file, cross-platform
     returned_output = subprocess.run(cmd , stdout=subprocess.PIPE, stderr=subprocess.PIPE , text = True)
@@ -47,14 +47,14 @@ def subDir(directorySrc,directoryDest): # Search and copy all the files in the f
     global i,files
     for subs in os.listdir(directorySrc):
         path = directorySrc + "/" + subs
-        if os.path.isdir(path):
+        if os.path.isdir(path): # Subfolder
             subDir(path,directoryDest)
         elif subs.endswith(".cpp") or subs.endswith(".h"):
             shutil.copy2(path, directoryDest)
             i += 1
             printProgressBar(iteration = i , total = files , prefix = 'Copying files:' , suffix = 'Complete' , length = 50)
 
-def count_items(dictionary):
+def count_items(dictionary): # Count items in a dictionary
     count = 0
     for key,value in dictionary.items():
         count += 1
@@ -63,7 +63,7 @@ def count_items(dictionary):
 directorySrc = filedialog.askdirectory() # Ask the user to select the folder
 directoryDest = pathlib.Path(__file__).parent.resolve() # Get the path of the script
 
-count_files(directorySrc) # Count the number of files
+count_files(directorySrc)
 if(files == 0):
     print("No .cpp or .h files found")
     exit()
