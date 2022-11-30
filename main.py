@@ -92,7 +92,5 @@ else:
 
 # Delete all the files
 for file in os.listdir():
-    if not file.endswith(".py") and not os.path.isdir(file):
+    if not file.endswith(".py") and not os.path.isdir(file) and not file.endswith(".md"):
         delete_file(file)
-
-exit()
