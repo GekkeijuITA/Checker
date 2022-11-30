@@ -82,7 +82,7 @@ for file in os.listdir():
 print("\n")
 
 # Print the errors
-if count_items(output) != 0: # non cattura errori se faccio partire con parte 10 su mac
+if count_items(output) != 0:
     print("Errors:")
     for key in output:
         print("\n-------------- " + key + " --------------\n")
@@ -94,3 +94,5 @@ else:
 for file in os.listdir():
     if not file.endswith(".py") and not os.path.isdir(file):
         delete_file(file)
+
+exit()
